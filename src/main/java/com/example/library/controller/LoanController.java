@@ -1,20 +1,28 @@
 package com.example.library.controller;
+
+import com.example.library.entity.Book;
 import com.example.library.entity.Loan;
+import com.example.library.entity.User;
+import com.example.library.service.BookService;
 import com.example.library.service.LoanService;
+import com.example.library.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/loans")
 public class LoanController {
 
     private final LoanService loanService;
+    private final BookService bookService;
+    private final UserService userService;
 
-    public LoanController(LoanService loanService) {
+    public LoanController(LoanService loanService, BookService bookService, UserService userService) {
         this.loanService = loanService;
+        this.bookService = bookService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -61,11 +69,21 @@ public class LoanController {
 
     @GetMapping("/user/{userId}")
     public List<Loan> getLoansByUser(@PathVariable Long userId) {
-        return loanService.getLoansByUser(userId);
+        User user = userService.getUserById(userId);
+        if (user != null) {
+            return loanService.getLoansByUser(user);
+        } else {
+            return List.of();
+        }
     }
 
     @GetMapping("/book/{bookId}")
     public List<Loan> getLoansByBook(@PathVariable Long bookId) {
-        return loanService.getLoansByBook(bookId);
+        Book book = bookService.getBookById(bookId);
+        if (book != null) {
+            return loanService.getLoansByBook(book);
+        } else {
+            return List.of();
+        }
     }
 }

@@ -26,7 +26,6 @@ public class UserService {
     }
 
     public User saveUser(User user) {
-        // Пароль сохраняется без шифрования
         return userRepository.save(user);
     }
 

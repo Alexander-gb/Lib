@@ -1,6 +1,8 @@
 package com.example.library.service;
 
+import com.example.library.entity.Book;
 import com.example.library.entity.Loan;
+import com.example.library.entity.User;
 import com.example.library.repository.LoanRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +30,11 @@ public class LoanService {
         loanRepository.deleteById(id);
     }
 
-    public List<Loan> getLoansByUser(Long userId) {
-        return loanRepository.findByUser(userId);
+    public List<Loan> getLoansByUser(User user) {
+        return loanRepository.findByUser(user);
     }
 
-    public List<Loan> getLoansByBook(Long bookId) {
-        return loanRepository.findByBook(bookId);
+    public List<Loan> getLoansByBook(Book book) {
+        return loanRepository.findByBook(book);
     }
 }
